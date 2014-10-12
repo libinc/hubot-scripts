@@ -10,7 +10,8 @@
 #   HUBOT_GITHUB_REPOS_PATH
 #
 # Commands:
-#   hubot github show:issue <options> -- List issues for a repository
+#   hubot github show:issues <options> -- List issues for a repository
+#   hubot github show:pulls <options> -- List pull requests for a repository
 #   hubot github create:issue <options> -- Create a issue for a repository
 #
 # Notes:
@@ -69,9 +70,9 @@ module.exports = (robot) ->
     "\n- Created by #{name} via Hubot"
 
   ## List issues for a repository
-  robot.respond /github\s+show:issues?(\s+)?(.+)?/i, (msg) ->
+  robot.respond /github\s+show:issues?(\s+.+)?/i, (msg) ->
 
-    option    = new CommandOption(msg.match[2])
+    option    = new CommandOption(msg.match[1])
     repo_path = option.get('repo') ? repo_path
 
     unless repo_path?
@@ -95,6 +96,33 @@ module.exports = (robot) ->
 
       msg.send summary
 
+  ## List issues for a repository
+  robot.respond /github\s+show:pulls?(\s+.+)?/i, (msg) ->
+
+    option    = new CommandOption(msg.match[1])
+    repo_path = option.get('repo') ? repo_path
+
+    unless repo_path?
+      msg.send "No repository specified, please provide one or set HUBOT_GITHUB_REPOS_PATH accordingly."
+      return
+
+    url   = "#{url_api_base}/repos/#{repo_path}/pulls"
+    query = option.query('state', 'head', 'base', 'sort', 'direction')
+
+    github.get "#{url}?#{query}", (issues) ->
+      if issues.length == 0
+        summary = "Achievement unlocked: open pull requests zero!"
+      else
+        if issues.length == 1
+          summary = "There's only one open pull request for #{repo_path}:"
+        else
+          summary = "I found #{issues.length} open pull requests for #{repo_path}:"
+
+        for issue in issues
+          summary = summary + "\n\t#{issue.title} (#{if issue.assignee then issue.assignee.login else 'no assignee'}) -> #{issue.html_url}"
+
+      msg.send summary
+
   ## Create an issue
   robot.respond /github\s+create:issue\s+(.+)/i, (msg) ->
 
@@ -112,7 +140,6 @@ module.exports = (robot) ->
     data['body']  = signature(msg.message.user.name)
 
     github.post url, data, (issue) ->
-      console.log(issue)
       msg.send "#{issue.title} (#{if issue.assignee then issue.assignee.login else 'no assignee'}) -> #{issue.html_url}"
 
 
