@@ -1,6 +1,6 @@
 # Hubot Scripts
 
-## Usage
+## Install
 
 Add dependencies in your `package.json`
 
