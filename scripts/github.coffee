@@ -23,39 +23,7 @@
 # Author:
 #   yulii
 
-class CommandOption
-
-  constructor: (@args) ->
-    self = this
-    @params = {}
-    for field in @args.split(/\s+/)
-      o = self.parse(field)
-      @params[o.label] = o.value
-
-  parse: (field) ->
-    separatorIndex = field.indexOf(':');
-    l = field.slice(0, separatorIndex)
-    v = field.slice(separatorIndex + 1)
-    v = v.split(',') if v.indexOf(',') >= 0
-    { label: l, value: v } 
-
-  data: () ->
-    args = Array.prototype.slice.call(arguments)
-    data = {}
-    for key of @params
-      data[key] = @params[key] if args.indexOf(key) >= 0
-    return data
-
-  query: () ->
-    args = Array.prototype.slice.call(arguments)
-    list = []
-    for key of @params
-      list.push("#{key}=#{@params[key]}") if args.indexOf(key) >= 0
-    return list.join("&")
-
-  get: (name) ->
-    @params[name]
-
+Option  = require('../module/command_option')
 
 module.exports = (robot) ->
 
@@ -72,7 +40,7 @@ module.exports = (robot) ->
   ## List issues for a repository
   robot.respond /github\s+show:issues?(\s+.+)?/i, (msg) ->
 
-    option    = new CommandOption(msg.match[1])
+    option    = new Option(msg.match[1])
     repo_path = option.get('repo') ? repo_path
 
     unless repo_path?
@@ -99,7 +67,7 @@ module.exports = (robot) ->
   ## List issues for a repository
   robot.respond /github\s+show:pulls?(\s+.+)?/i, (msg) ->
 
-    option    = new CommandOption(msg.match[1])
+    option    = new Option(msg.match[1])
     repo_path = option.get('repo') ? repo_path
 
     unless repo_path?
@@ -126,7 +94,7 @@ module.exports = (robot) ->
   ## Create an issue
   robot.respond /github\s+create:issue\s+(.+)/i, (msg) ->
 
-    option    = new CommandOption(msg.match[1])
+    option    = new Option(msg.match[1])
     repo_path = option.get('repo') ? repo_path
 
     unless repo_path?
