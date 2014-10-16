@@ -2,8 +2,18 @@
 
 ## Usage
 
+Add dependencies in your `package.json`
+
+```json
+"dependencies": {
+  "libinc-hubot": "libinc/hubot-scripts"
+}
 ```
-hubot help
+
+and to enable "libinc-hubot" you will need to add the package name as a double quoted string to the `external-scripts.json` file in your hubot.
+
+```json
+["libinc-hubot"]
 ```
 
 ## Contributing
