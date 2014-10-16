@@ -35,6 +35,7 @@ module.exports = (robot) ->
       severity: level ? "h"
       lang: "ja"
 
+    msg.send "GET http://jvn.jp/\nPlease wait a few seconds."
     msg.http(jvn_api_url)
       .query(data)
       .get() (err, res, body) ->
@@ -61,7 +62,7 @@ module.exports = (robot) ->
     viewList msg, url
 
 viewList = (msg, url) ->
-  msg.send "GET #{url}", "Please wait a few seconds."
+  msg.send "GET #{url}\nPlease wait a few seconds."
   msg.http("#{url}.rss")
     .get() (err, res, body) ->
       if res.statusCode isnt 200
