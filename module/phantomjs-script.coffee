@@ -30,7 +30,7 @@ page.evaluate (type, data) ->
 
 page.onCallback = (data) ->
   page.clipRect = data.clipRect
-  page.render("#{file}.png")
+  page.render("./tmp/#{file}.png")
   phantom.exit()
 
 page.onError = (message, trace) ->
