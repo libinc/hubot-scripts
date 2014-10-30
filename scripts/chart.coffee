@@ -12,21 +12,39 @@
 # Author:
 #   yulii
 
-path = require('path')
-childProcess = require('child_process')
-phantomjs = require('phantomjs')
-binPath = phantomjs.path
+ChartImage  = require('../module/chart_image')
 
-childArgs = [
-  path.join(__dirname, '../module/phantomjs-script.coffee')
-  'chartjs'
-  'pie'
-  '[{ "value": 55 ,"color": "#F38630" }, { "value": 45 ,"color": "#E0E4CC" }]'
-]
+#path = require('path')
+#childProcess = require('child_process')
+#phantomjs = require('phantomjs')
+#binPath = phantomjs.path
+#
+#childArgs = [
+#  path.join(__dirname, '../module/phantomjs-script.coffee')
+#  'chartjs'
+#  'pie'
+#  '[{ "value": 55 }, { "value": 45 }]'
+#]
 
 module.exports = (robot) ->
 
   robot.respond /chart/i, (msg) ->
-    childProcess.execFile binPath, childArgs, (err, stdout, stderr) ->
+    chart = new ChartImage()
+    #chart.callback (err, stdout, stderr) ->
+    #  console.log("OK")
+    #  if err
+    #    msg.send "#{err.name}: #{err.message}"
+    #  msg.send "OK"
+    dataStr = '[{ "value": 75, "color":"#FFCCCC"}, { "value": 25, "color":"#CCCCFF"}]'
+
+    chart.generate 'pie', dataStr, (err, stdout, stderr) ->
+      if err
+        msg.send "#{err.name}: #{err.message}"
       msg.send "OK"
+
+
+    #childProcess.execFile binPath, childArgs, (err, stdout, stderr) ->
+    #  if err
+    #    msg.send "#{err.name}: #{err.message}"
+    #  msg.send "OK"
 
