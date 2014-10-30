@@ -11,7 +11,9 @@
 # Author:
 #   yulii
 
-ChartImage  = require('../module/chart_image')
+fs   = require('fs')
+path = require('path')
+ChartImage = require('../module/chart_image')
 
 module.exports = (robot) ->
 
@@ -24,4 +26,15 @@ module.exports = (robot) ->
       if err
         msg.send "#{err.name}: #{err.message}"
       msg.send "OK"
+
+  ## Get an image from `/tmp` dir
+  robot.router.get "/hubot/charts/:key", (req, res) ->
+    tmp = path.join(__dirname, '..', 'tmp', req.params.key)
+    path.exists tmp, (exists) ->
+      if exists
+        fs.readFile tmp,(err,data) ->
+          res.writeHead(200, { 'Content-Type': 'image/png' })
+          res.end(data)
+      else
+        res.status(404).send('Not found')
 
