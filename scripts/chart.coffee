@@ -20,27 +20,8 @@ binPath = phantomjs.path
 childArgs = [path.join(__dirname, '../module/phantomjs-script.coffee')]
 
 module.exports = (robot) ->
-  #page = require('webpage').create()
-  #Chart = require('chart.js/Chart')
 
   robot.respond /chart/i, (msg) ->
     childProcess.execFile binPath, childArgs, (err, stdout, stderr) ->
-      console.log('stdout: ' + stdout)
       msg.send "OK"
-
-    #phantom.create (ph) ->
-    #  ph.createPage (page) ->
-    #    page.evaluate () ->
-    #      canvas = $('<canvas />').attr(width: 600, height: 480).appendTo($('body'))
-    #      ph.exit()
-    #      msg.send "OK"
-        #page.open "http://www.google.com", (status) ->
-        #  console.log "opened google? ", status
-        #  page.evaluate (-> document.title), (result) ->
-        #    console.log 'Page title is ' + result
-        #    ph.exit()
-
-    #page.evaluate () ->
-    #  #canvas = $('<canvas />').attr(width: 600, height: 480).appendTo($('body'))
-    #  msg.send "OK"
 
