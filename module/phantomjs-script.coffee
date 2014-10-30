@@ -1,23 +1,11 @@
-page = require('webpage').create()
+system = require('system')
+page   = require('webpage').create()
 page.injectJs '../node_modules/chart.js/Chart.min.js'
 
 ## Args
-filename = "chartjs"
-#type = 'pie'
-type = 'line'
-#data = [
-#  { value: 30 ,color: "#F38630" }
-#  { value: 40 ,color: "#E0E4CC" }
-#  { value: 10 ,color: "#E4CCE0" }
-#  { value: 15 ,color: "#69D2E7" }
-#  { value:  5 ,color: "#E7D7D2" }
-#]
-data =
-  labels: ["January", "February", "March", "April", "May", "June", "July"]
-  datasets: [
-    { fillColor: "rgba(220,220,220,0.5)", strokeColor: "rgba(220,220,220,1)", data: [65, 59, 90, 81, 56, 55, 40] }
-    { fillColor: "rgba(151,187,205,0.5)", strokeColor: "rgba(151,187,205,1)", data: [28, 48, 40, 19, 96, 27, 100] }
-  ]
+file = system.args[1]
+type = system.args[2]
+data = JSON.parse(system.args[3])
 
 page.evaluate (type, data) ->
   canvas = document.createElement('canvas')
@@ -42,7 +30,7 @@ page.evaluate (type, data) ->
 
 page.onCallback = (data) ->
   page.clipRect = data.clipRect
-  page.render("#{filename}.png")
+  page.render("#{file}.png")
   phantom.exit()
 
 page.onError = (message, trace) ->

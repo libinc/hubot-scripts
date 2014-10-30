@@ -17,7 +17,12 @@ childProcess = require('child_process')
 phantomjs = require('phantomjs')
 binPath = phantomjs.path
 
-childArgs = [path.join(__dirname, '../module/phantomjs-script.coffee')]
+childArgs = [
+  path.join(__dirname, '../module/phantomjs-script.coffee')
+  'chartjs'
+  'pie'
+  '[{ "value": 55 ,"color": "#F38630" }, { "value": 45 ,"color": "#E0E4CC" }]'
+]
 
 module.exports = (robot) ->
 
