@@ -3,7 +3,6 @@
 #
 # Dependencies:
 #   "chart.js": "^1.0.1-beta.2"
-#   "jquery": "^2.1.1"
 #   "phantomjs": "^1.9.12"
 #
 # Commands:
@@ -13,14 +12,12 @@
 # Author:
 #   yulii
 
-$ = require('jquery')
-
 path = require('path')
 childProcess = require('child_process')
 phantomjs = require('phantomjs')
 binPath = phantomjs.path
 
-childArgs = [path.join(__dirname, '../module/phantomjs-script.js')]
+childArgs = [path.join(__dirname, '../module/phantomjs-script.coffee')]
 
 module.exports = (robot) ->
   #page = require('webpage').create()
@@ -28,6 +25,7 @@ module.exports = (robot) ->
 
   robot.respond /chart/i, (msg) ->
     childProcess.execFile binPath, childArgs, (err, stdout, stderr) ->
+      console.log('stdout: ' + stdout)
       msg.send "OK"
 
     #phantom.create (ph) ->
