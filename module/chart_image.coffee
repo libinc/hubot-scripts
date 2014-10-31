@@ -15,10 +15,11 @@ class ChartImage
     sha256.digest("hex")
 
   generate: (type, data, callback) ->
+    tmp_dir = path.join(__dirname, '..', 'tmp')
     @filename  = "#{type}-#{@hash(data)}.png"
     @childArgs = [
       @scriptFile
-      @filename
+      "#{tmp_dir}/#{@filename}"
       type
       data
     ]
