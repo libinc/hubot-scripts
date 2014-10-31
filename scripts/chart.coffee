@@ -17,9 +17,14 @@ ChartImage = require('../module/chart_image')
 
 module.exports = (robot) ->
 
-  hubot_url = () ->
-    server = robot.server.address()
-    process.env.HEROKU_URL ? "http://#{server.address}:#{server.port}"
+  robot.helper =
+    url: () ->
+      server = robot.server.address()
+      process.env.HEROKU_URL ? "http://#{server.address}:#{server.port}"
+
+  #hubot_url = () ->
+  #  server = robot.server.address()
+  #  process.env.HEROKU_URL ? "http://#{server.address}:#{server.port}"
 
   robot.respond /chart\s+(\w+)\s+(.+)/i, (msg) ->
     type = msg.match[1]
@@ -31,7 +36,7 @@ module.exports = (robot) ->
       if err
         msg.send "#{err.name}: #{err.message}"
       filename = encodeURIComponent(chart.filename)
-      msg.send "#{hubot_url()}/hubot/charts/#{filename}"
+      msg.send "#{robot.helper.url()}/hubot/charts/#{filename}"
 
   ## Get an image from `/tmp` dir
   robot.router.get "/hubot/charts/:key", (req, res) ->
