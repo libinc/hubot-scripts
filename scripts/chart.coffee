@@ -6,7 +6,7 @@
 #   "phantomjs": "^1.9.12"
 #
 # Commands:
-#   hubot chart <type> <data> -- Generate a chart image
+#   hubot chart <type> <data> -- Generate a chart image (cf. Chart.js)
 #
 # Author:
 #   yulii
