@@ -4,11 +4,15 @@ page.injectJs '../node_modules/chart.js/Chart.min.js'
 
 ## Args
 filename = system.args[1]
-type     = system.args[2]
-data     = system.args[3]
+width    = system.args[2]
+height   = system.args[3]
+type     = system.args[4]
+data     = system.args[5]
 
-page.evaluate (type, data) ->
+page.evaluate (width, height, type, data) ->
   canvas = document.createElement('canvas')
+  canvas.width  = width
+  canvas.height = height
   document.body.appendChild(canvas)
 
   options =
@@ -26,7 +30,7 @@ page.evaluate (type, data) ->
     when 'pie'      then chart.Pie(data, options)
     when 'doughnut' then chart.Doughnut(data, options)
     else throw new Error('Invalid chart type.')
-, type, JSON.parse(data)
+, width, height, type, JSON.parse(data)
 
 page.onCallback = (data) ->
   page.clipRect = data.clipRect
