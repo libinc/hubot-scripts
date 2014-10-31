@@ -38,7 +38,7 @@ module.exports = (robot) ->
   ## Get an image from `/tmp` dir
   robot.router.get "/hubot/charts/:key", (req, res) ->
     tmp = path.join(__dirname, '..', 'tmp', req.params.key)
-    path.exists tmp, (exists) ->
+    fs.exists tmp, (exists) ->
       if exists
         fs.readFile tmp,(err,data) ->
           res.writeHead(200, { 'Content-Type': 'image/png' })
