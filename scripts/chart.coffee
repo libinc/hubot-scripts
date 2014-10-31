@@ -15,8 +15,6 @@ fs   = require('fs')
 path = require('path')
 ChartImage = require('../module/chart_image')
 
-util = require('util');
-
 module.exports = (robot) ->
 
   hubot_url = () ->
