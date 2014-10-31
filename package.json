@@ -22,6 +22,7 @@
     "url": "https://github.com/libinc/hubot-scripts.git"
   },
   "dependencies": {
+    "aws-sdk": "^2.0.23",
     "chart.js": "^1.0.1-beta.2",
     "cheerio": "^0.17.0",
     "githubot": "^1.0.0-beta2",
