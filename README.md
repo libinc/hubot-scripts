@@ -1,4 +1,7 @@
 # Hubot Scripts
+[![Build Status](https://travis-ci.org/libinc/hubot-scripts.svg?branch=master)](https://travis-ci.org/libinc/hubot-scripts)
+[![Coverage Status](https://img.shields.io/coveralls/libinc/hubot-scripts.svg)](https://coveralls.io/r/libinc/hubot-scripts?branch=master)
+[![Dependencies Status](https://david-dm.org/libinc/hubot-scripts.png)](https://david-dm.org/libinc/hubot-scripts)
 
 ## Install
 
