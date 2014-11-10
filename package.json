@@ -51,7 +51,10 @@
   },
   "config": {
     "blanket": {
-      "pattern": "scripts"
+      "pattern": [
+        "hubot-scripts/scripts",
+        "hubot-scripts/module"
+      ]
     }
   } 
 }
