@@ -33,3 +33,13 @@ describe 'lgtm', ->
 
     adapter.receive(new TextMessage(user, 'lgtm'))
 
+  it 'should respond to a tiqav image', (done) ->
+    adapter.on 'send', (envelope, strings) ->
+      try
+        expect(strings[0]).to.match(/^https?:\/\/tiqav\.com\//)
+        done()
+      catch e
+        done e
+
+    adapter.receive(new TextMessage(user, 'hubot reply thanks'))
+
