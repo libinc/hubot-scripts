@@ -10,8 +10,7 @@
 #   HUBOT_GITHUB_REPOS_PATH
 #
 # Commands:
-#   hubot github show:issues <options> -- List issues for a repository
-#   hubot github show:pulls <options> -- List pull requests for a repository
+#   hubot search me issues <query> -- Searching issues (cf. https://help.github.com/articles/searching-issues/ )
 #   hubot github create:issue <options> -- Create a issue for a repository
 #
 # Notes:
@@ -37,56 +36,22 @@ module.exports = (robot) ->
   signature = (name) ->
     "\n- Created by #{name} via Hubot"
 
-  ## List issues for a repository
-  robot.respond /github\s+show:issues?(\s+.+)?/i, (msg) ->
+  ## Searching issues
+  robot.respond /search\s+(me\s+)?issues?\s+(.+)/i, (msg) ->
 
-    option    = new Option(msg.match[1])
-    repo_path = option.get('repo') ? repo_path
+    query = require('querystring').escape(msg.match[2])
 
-    unless repo_path?
-      msg.send "No repository specified, please provide one or set HUBOT_GITHUB_REPOS_PATH accordingly."
-      return
-
-    url   = "#{url_api_base}/repos/#{repo_path}/issues"
-    query = option.query('milestone', 'state', 'assignee', 'creator', 'mentioned', 'labels', 'sort', 'direction', 'since')
-
-    github.get "#{url}?#{query}", (issues) ->
-      if issues.length == 0
-        summary = "Achievement unlocked: open issues zero!"
+    console.log("#{url_api_base}/search/issues?q=#{query}")
+    github.get "#{url_api_base}/search/issues?q=#{query}", (result) ->
+      if result.total_count == 0
+        summary = "Not found!"
       else
-        if issues.length == 1
-          summary = "There's only one open issue for #{repo_path}:"
+        if result.total_count == 1
+          summary = "There's only one issue:"
         else
-          summary = "I found #{issues.length} open issues for #{repo_path}:"
+          summary = "I found #{result.total_count} issues:"
 
-        for issue in issues
-          summary = summary + "\n\t#{issue.title} (#{if issue.assignee then issue.assignee.login else 'no assignee'}) -> #{issue.html_url}"
-
-      msg.send summary
-
-  ## List issues for a repository
-  robot.respond /github\s+show:pulls?(\s+.+)?/i, (msg) ->
-
-    option    = new Option(msg.match[1])
-    repo_path = option.get('repo') ? repo_path
-
-    unless repo_path?
-      msg.send "No repository specified, please provide one or set HUBOT_GITHUB_REPOS_PATH accordingly."
-      return
-
-    url   = "#{url_api_base}/repos/#{repo_path}/pulls"
-    query = option.query('state', 'head', 'base', 'sort', 'direction')
-
-    github.get "#{url}?#{query}", (issues) ->
-      if issues.length == 0
-        summary = "Achievement unlocked: open pull requests zero!"
-      else
-        if issues.length == 1
-          summary = "There's only one open pull request for #{repo_path}:"
-        else
-          summary = "I found #{issues.length} open pull requests for #{repo_path}:"
-
-        for issue in issues
+        for issue in result.items
           summary = summary + "\n\t#{issue.title} (#{if issue.assignee then issue.assignee.login else 'no assignee'}) -> #{issue.html_url}"
 
       msg.send summary
