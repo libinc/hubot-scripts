@@ -41,8 +41,7 @@ module.exports = (robot) ->
 
     query = require('querystring').escape(msg.match[2])
 
-    console.log("#{url_api_base}/search/issues?q=#{query}")
-    github.get "#{url_api_base}/search/issues?q=#{query}", (result) ->
+    github.get "#{url_api_base}/search/issues?q=#{query}&per_page=100", (result) ->
       if result.total_count == 0
         summary = "Not found!"
       else
