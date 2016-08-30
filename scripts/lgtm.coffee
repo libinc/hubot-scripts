@@ -1,9 +1,6 @@
 # Description:
 #   LGTM!
 #
-# Dependencies:
-#   "cheerio": "0.17.0"
-#
 # Commands:
 #   hubot reply <query> -- Respond an image from tiqav.com
 #
@@ -16,14 +13,17 @@ module.exports = (robot) ->
 
   # Looks good to me!
   robot.hear /lgtm/i, (msg) ->
-    msg.http("http://www.lgtm.in/g")
+    robot.http("http://www.lgtm.in/g")
       .get() (err, res, body) ->
-        $ = cheerio.load(body)
-        msg.send $('#imageUrl').attr('value')
+        if res.statusCode is 302
+          robot.http(res.headers.location)
+            .get() (err, res, body) ->
+              $ = cheerio.load(body)
+              msg.send $('#imageUrl').attr('value')
 
   # GET an image from tiqav
   robot.respond /reply\s+(.+)?/i, (msg) ->
-    msg.http("http://api.tiqav.com/search/random.json")
+    robot.http("http://api.tiqav.com/search/random.json")
       .query(q: msg.match[1])
       .get() (err, res, body) ->
         if err
