@@ -1,10 +1,6 @@
 # Description:
 #   Generate a chart image
 #
-# Dependencies:
-#   "chart.js": "^1.0.1-beta.2"
-#   "phantomjs": "^1.9.12"
-#
 # Commands:
 #   hubot chart <type> <data> -- Generate a chart image (cf. Chart.js)
 #
