@@ -1,6 +1,6 @@
 path         = require('path')
 childProcess = require('child_process')
-phantomjs    = require('phantomjs')
+phantomjs    = require('phantomjs-prebuilt')
 crypto       = require("crypto")
 
 class ChartImage
