@@ -11,7 +11,7 @@
 # path = require('path')
 # ChartImage = require('../module/chart_image')
 #
-# module.exports = (robot) ->
+module.exports = (robot) ->
 #
 #   robot.helper =
 #     url: () ->
