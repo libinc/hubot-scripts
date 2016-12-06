@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.0.23",
-    "chart.js": "^2.2.2",
     "cheerio": "^0.22.0",
     "githubot": "^1.0.0-beta2",
     "hubot": ">= 2.6.0 < 3.0.0",

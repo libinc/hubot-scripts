@@ -1,10 +1,10 @@
 source = '../scripts/lgtm'
 expect = require('chai').expect
 
-Robot       = require('hubot/src/robot')  
+Robot       = require('hubot/src/robot')
 TextMessage = require('hubot/src/message').TextMessage
 
-describe 'lgtm', ->  
+describe 'lgtm', ->
   robot = null
   user = null
   adapter = null
@@ -31,7 +31,7 @@ describe 'lgtm', ->
       catch e
         done e
 
-    adapter.receive(new TextMessage(user, 'lgtm'))
+    adapter.receive(new TextMessage(user, 'hubot lgtm'))
 
   it 'should respond to a tiqav image', (done) ->
     adapter.on 'send', (envelope, strings) ->

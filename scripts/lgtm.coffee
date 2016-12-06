@@ -12,11 +12,11 @@ cheerio = require('cheerio')
 module.exports = (robot) ->
 
   # Looks good to me!
-  robot.hear /lgtm/i, (msg) ->
+  robot.respond /lgtm/i, (msg) ->
     robot.http("http://www.lgtm.in/g")
       .get() (err, res, body) ->
         if res.statusCode is 302
-          robot.http(res.headers.location)
+          robot.http(res.headers.location, { rejectUnauthorized: false })
             .get() (err, res, body) ->
               $ = cheerio.load(body)
               msg.send $('#imageUrl').attr('value')
